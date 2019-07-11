@@ -23,11 +23,13 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import AddExpense from './components/AddExpense'
+//import AddExpense from './components/AddExpense'
+import HomeScreen from './components/HomeScreen'
 
 const App = () => {
   return (
-    <Fragment>
+    <HomeScreen />
+    /*<Fragment>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
@@ -35,7 +37,6 @@ const App = () => {
           style={styles.scrollView}>
           <Header />
           <View style={styles.body}>
-            <AddExpense />
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
               <Text style={styles.sectionDescription}>
@@ -65,7 +66,7 @@ const App = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </Fragment>
+    </Fragment>*/
   );
 };
 
