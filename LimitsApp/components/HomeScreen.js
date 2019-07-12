@@ -6,15 +6,42 @@ import {
   StyleSheet,
   StatusBar,
   SafeAreaView,
-  FlatList
+  FlatList,
+  TouchableHighlight
 } from 'react-native';
 
 export default class HomeScreen extends Component {
     constructor(props){
         super(props);
         this.state = {
-            limits: []
+            limits: [
+                {
+                    name: "Groceries",
+                    limit: 75,
+                    currentSpending: 25,
+                    resetRate: 'WEEKLY',
+                    transactions: []
+                },
+                {
+                    name: "Weekend",
+                    limit: 40,
+                    currentSpending: 25,
+                    resetRate: 'WEEKLY',
+                    transactions: []
+                }
+            ]
         }
+
+        this.addLimit = this.addLimit.bind(this);
+        this.deleteLimit = this.deleteLimit.bind(this);
+    }
+
+    addLimit(){
+
+    }
+
+    deleteLimit(){
+
     }
 
     render(){
@@ -31,7 +58,15 @@ export default class HomeScreen extends Component {
                         <View>
                             <FlatList
                                 data={this.state.limits}
-                                  renderItem={({limit}) => <Text style={styles.item}>{item.key}</Text>}
+                                renderItem={({item}) => (
+                                    <TouchableHighlight onPress={() => {}}> 
+                                        <View>
+                                            <Text>{item.name}</Text>
+                                            <Text>{item.limit}</Text>
+                                            <Text>{item.currentSpending}</Text>
+                                        </View>
+                                    </TouchableHighlight>
+                                )}
                             />
                         </View>
                     </View>
