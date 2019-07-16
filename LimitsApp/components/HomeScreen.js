@@ -7,7 +7,8 @@ import {
   StatusBar,
   SafeAreaView,
   FlatList,
-  TouchableHighlight
+  TouchableHighlight,
+  Button
 } from 'react-native';
 
 export default class HomeScreen extends Component {
@@ -16,6 +17,7 @@ export default class HomeScreen extends Component {
         this.state = {
             limits: [
                 {
+                    
                     name: "Groceries",
                     limit: 75,
                     currentSpending: 25,
@@ -36,8 +38,17 @@ export default class HomeScreen extends Component {
         this.deleteLimit = this.deleteLimit.bind(this);
     }
 
-    addLimit(){
-
+    addLimit(name, limit, resetRate){
+        let newLimit = {
+            name: name,
+            limit: limit,
+            currentSpending: 0,
+            resetRate: resetRate,
+            transactions: []
+        }
+        this.setState(prevState => ({
+            limits: [...prevState.limits, newLimit]
+        }))
     }
 
     deleteLimit(){
@@ -69,6 +80,15 @@ export default class HomeScreen extends Component {
                                 )}
                             />
                         </View>
+                    </View>
+                    <View>
+                        <Button 
+                            title="Add Limit"
+                            accessibilityLabel="Button to create new limit"
+                            onPress={() => this.props.navigation.navigate("AddLimit", {
+                                addLimit: this.addLimit
+                            })}
+                        />
                     </View>
                 </SafeAreaView>
             </Fragment>
