@@ -22,7 +22,13 @@ export default class HomeScreen extends Component {
                     limit: 75,
                     currentSpending: 25,
                     resetRate: 'WEEKLY',
-                    transactions: []
+                    expenses: [
+                        {
+                            id: 1,
+                            cost: 5,
+                            date: "Monday, June 4th"
+                        }
+                    ]
                 },
                 {
                     id: 5,
@@ -30,13 +36,14 @@ export default class HomeScreen extends Component {
                     limit: 40,
                     currentSpending: 25,
                     resetRate: 'WEEKLY',
-                    transactions: []
+                    expenses: []
                 }
             ]
         }
 
         this.addLimit = this.addLimit.bind(this);
         this.deleteLimit = this.deleteLimit.bind(this);
+        this.addExpense = this.addExpense.bind(this);
     }
 
     addLimit(name, limit, resetRate){
@@ -62,7 +69,26 @@ export default class HomeScreen extends Component {
         }))
     }
 
-    getRecentId(){
+    addExpense(limitId, cost, date){
+        let newExpenseId = limit.expenses.reduce((id, expense) => expense.id > id ? expense.id : id);
+        let newExpense = {
+            id: newExpenseId,
+            cost: cost,
+            date: date
+        }
+
+        this.setState(prevState => ({
+            limits: prevState.limits.map((limit) => {
+                limit.id === limitId ? {...limit, expenses: limit.expenses.push(newExpense)}: limit
+            })
+        }));
+    }
+
+    deleteExpense(limitId, expenseId){
+        
+    }
+
+    getRecentLimitId(){
         return this.state.limits.reduce((id, limit) => limit.id > id ? limit.id : id);
     }
 
@@ -83,8 +109,9 @@ export default class HomeScreen extends Component {
                                 renderItem={({item}) => (
                                     <TouchableHighlight onPress={() => this.props.navigation.navigate("ViewLimit", {
                                         limit: this.state.limits.filter((limit) => {
-                                            return limit.id = item.id
-                                        })
+                                            return limit.id === item.id;
+                                        }),
+                                        addExpense: this.addExpense
                                     })}> 
                                         <View>
                                             <Text>{item.id}</Text>

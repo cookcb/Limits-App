@@ -6,30 +6,63 @@ import {
   StyleSheet,
   StatusBar,
   SafeAreaView,
-  Picker,
-  Button
+  FlatList,
+  TouchableHighlight,
+  DatePickerIOS
 } from 'react-native';
 
 export default class ViewLimit extends Component {
     constructor(props){
         super(props);
         this.state = {
-            
+            cost: 0,
+            date: new Date()
         }
+
+        this.changeDate = this.changeDate.bind(this);
     }
 
     addExpense(){
+        let limitId = this.props.navigation.state.params.limit[0].id;
+        this.props.navigation.state.params.addExpense(limitId, cost, date);
+    }
 
+    changeDate(newDate){
+        this.setState({date: newDate})
     }
 
     render(){
-        console.log(this.props.navigation.state.params);
         return(
             <Fragment>
                 <StatusBar barStyle="dark-content" />
                 <SafeAreaView>
                     <View>
-                        <Text>{this.props.navigation.state.params.limit.name}</Text>
+                        <Text>{this.props.navigation.state.params.limit[0].name}</Text>
+                    </View>
+                    <View>
+                            <FlatList
+                                data={this.props.navigation.state.params.limit[0].expenses}
+                                renderItem={({item}) => (
+                                    <TouchableHighlight onPress={() => {}}> 
+                                        <View>
+                                            <Text>{item.cost}</Text>
+                                            <Text>{item.date}</Text>
+                                        </View>
+                                    </TouchableHighlight>
+                                )}
+                            />
+                    </View>
+                    <View>
+                        <TextInput
+                            style={styles.input}
+                            value={this.state.cost}
+                            placeholder="Amount"
+                        />
+                        <DatePickerIOS
+                            style={styles.input}
+                            date={this.state.date}
+                            onDateChange={this.changeDate}
+                        />
                     </View>
                 </SafeAreaView>
             </Fragment>
