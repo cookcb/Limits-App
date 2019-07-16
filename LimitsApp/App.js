@@ -28,6 +28,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import HomeScreen from './components/HomeScreen'
 import AddLimit from './components/AddLimit'
+import ViewLimit from './components/ViewLimit'
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -35,7 +36,10 @@ const AppNavigator = createStackNavigator({
   },
   AddLimit: {
     screen: AddLimit
-  }
+  },
+  ViewLimit: {
+    screen: ViewLimit
+  },
 },{
   initialRouteName: "Home"
 })

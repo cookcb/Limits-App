@@ -17,7 +17,7 @@ export default class HomeScreen extends Component {
         this.state = {
             limits: [
                 {
-                    
+                    id: 1,
                     name: "Groceries",
                     limit: 75,
                     currentSpending: 25,
@@ -25,6 +25,7 @@ export default class HomeScreen extends Component {
                     transactions: []
                 },
                 {
+                    id: 5,
                     name: "Weekend",
                     limit: 40,
                     currentSpending: 25,
@@ -39,7 +40,9 @@ export default class HomeScreen extends Component {
     }
 
     addLimit(name, limit, resetRate){
+        let recentLimitId = this.getRecentId();
         let newLimit = {
+            id: recentLimitId + 1,
             name: name,
             limit: limit,
             currentSpending: 0,
@@ -51,8 +54,16 @@ export default class HomeScreen extends Component {
         }))
     }
 
-    deleteLimit(){
+    deleteLimit(id){
+        this.setState(prevState => ({
+            limits: prevState.filter((limit) => {
+                return limit.id !== id;
+            })
+        }))
+    }
 
+    getRecentId(){
+        return this.state.limits.reduce((id, limit) => limit.id > id ? limit.id : id);
     }
 
     render(){
@@ -70,8 +81,13 @@ export default class HomeScreen extends Component {
                             <FlatList
                                 data={this.state.limits}
                                 renderItem={({item}) => (
-                                    <TouchableHighlight onPress={() => {}}> 
+                                    <TouchableHighlight onPress={() => this.props.navigation.navigate("ViewLimit", {
+                                        limit: this.state.limits.filter((limit) => {
+                                            return limit.id = item.id
+                                        })
+                                    })}> 
                                         <View>
+                                            <Text>{item.id}</Text>
                                             <Text>{item.name}</Text>
                                             <Text>{item.limit}</Text>
                                             <Text>{item.currentSpending}</Text>
