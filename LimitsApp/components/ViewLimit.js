@@ -8,15 +8,18 @@ import {
   SafeAreaView,
   FlatList,
   TouchableHighlight,
-  DatePickerIOS
+  DatePickerIOS,
+  TouchableOpacity
 } from 'react-native';
+//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class ViewLimit extends Component {
     constructor(props){
         super(props);
         this.state = {
             cost: 0,
-            date: new Date()
+            date: new Date(),
+            showDatePicker: false
         }
 
         this.changeDate = this.changeDate.bind(this);
@@ -32,6 +35,14 @@ export default class ViewLimit extends Component {
     }
 
     render(){
+        let datePicker = this.state.showDatePicker ? 
+            <View>    
+                <DatePickerIOS
+                date={this.state.date}
+                onDateChange={this.changeDate}
+                mode={'date'}
+                /> 
+            </View> : <View />
         return(
             <Fragment>
                 <StatusBar barStyle="dark-content" />
@@ -58,11 +69,17 @@ export default class ViewLimit extends Component {
                             value={this.state.cost}
                             placeholder="Amount"
                         />
-                        <DatePickerIOS
-                            style={styles.input}
-                            date={this.state.date}
-                            onDateChange={this.changeDate}
-                        />
+                    </View>
+                    <View>          
+                            <TextInput 
+                                style={styles.input}
+                                value={this.state.date}
+                                placeholder="Date"
+                                onFocus={() => this.setState({showDatePicker: !this.state.showDatePicker})}
+                            />
+                                <Text>{this.state.date.getDate()}</Text>
+                            <TextInput/>
+                            {datePicker}
                     </View>
                 </SafeAreaView>
             </Fragment>
