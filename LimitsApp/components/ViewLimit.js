@@ -9,9 +9,9 @@ import {
   FlatList,
   TouchableHighlight,
   DatePickerIOS,
-  TouchableOpacity
+  Modal,
+  Button
 } from 'react-native';
-//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class ViewLimit extends Component {
     constructor(props){
@@ -19,7 +19,7 @@ export default class ViewLimit extends Component {
         this.state = {
             cost: 0,
             date: new Date(),
-            showDatePicker: false
+            showAddExpenseModal: false
         }
 
         this.changeDate = this.changeDate.bind(this);
@@ -35,14 +35,6 @@ export default class ViewLimit extends Component {
     }
 
     render(){
-        let datePicker = this.state.showDatePicker ? 
-            <View>    
-                <DatePickerIOS
-                date={this.state.date}
-                onDateChange={this.changeDate}
-                mode={'date'}
-                /> 
-            </View> : <View />
         return(
             <Fragment>
                 <StatusBar barStyle="dark-content" />
@@ -64,22 +56,46 @@ export default class ViewLimit extends Component {
                             />
                     </View>
                     <View>
-                        <TextInput
-                            style={styles.input}
-                            value={this.state.cost}
-                            placeholder="Amount"
+                        <Button 
+                            title="Add Expense"
+                            accessibilityLabel="Button to create new expense"
+                            onPress={() => this.setState({showAddExpenseModal: !this.state.showAddExpenseModal})}
                         />
                     </View>
-                    <View>          
-                            <TextInput 
-                                style={styles.input}
-                                value={this.state.date}
-                                placeholder="Date"
-                                onFocus={() => this.setState({showDatePicker: !this.state.showDatePicker})}
-                            />
-                                <Text>{this.state.date.getDate()}</Text>
-                            <TextInput/>
-                            {datePicker}
+                    <View style={{marginTop: 100}}>      
+                        <Modal
+                            animationType={'slide'}
+                            transparent={false}
+                            visible={this.state.showAddExpenseModal}
+                        >
+                            <View style={{marginTop: 100, width: 300, height: 300}}>
+                                <Text>
+                                    Add Expense
+                                </Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={this.state.cost}
+                                    placeholder="Amount"
+                                 />
+                                <DatePickerIOS
+                                    date={this.state.date}
+                                    onDateChange={this.changeDate}
+                                    mode={'date'}
+                                    /> 
+                                <View>
+                                    <Button 
+                                        title="Add"
+                                        accessibilityLabel="Button to create new Expense"
+                                        onPress={() => this.setState({showAddExpenseModal: !this.state.showAddExpenseModal})}
+                                    />
+                                    <Button 
+                                        title="Cancel"
+                                        accessibilityLabel="Button to cancel adding an expense"
+                                        onPress={() => this.setState({showAddExpenseModal: !this.state.showAddExpenseModal})}
+                                    />
+                                </View>
+                            </View>
+                        </Modal>
                     </View>
                 </SafeAreaView>
             </Fragment>
