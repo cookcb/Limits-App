@@ -22,12 +22,14 @@ export default class ViewLimit extends Component {
             showAddExpenseModal: false
         }
 
+        this.addExpense = this.addExpense.bind(this);
         this.changeDate = this.changeDate.bind(this);
     }
 
-    addExpense(){
+    addExpense(cost, date){
         let limitId = this.props.navigation.state.params.limit[0].id;
         this.props.navigation.state.params.addExpense(limitId, cost, date);
+        this.setState({showAddExpenseModal: !this.state.showAddExpenseModal});
     }
 
     changeDate(newDate){
@@ -86,7 +88,7 @@ export default class ViewLimit extends Component {
                                     <Button 
                                         title="Add"
                                         accessibilityLabel="Button to create new Expense"
-                                        onPress={() => this.setState({showAddExpenseModal: !this.state.showAddExpenseModal})}
+                                        onPress={() => this.addExpense(this.state.cost, this.state.date)}
                                     />
                                     <Button 
                                         title="Cancel"

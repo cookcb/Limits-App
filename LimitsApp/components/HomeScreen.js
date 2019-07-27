@@ -70,7 +70,9 @@ export default class HomeScreen extends Component {
     }
 
     addExpense(limitId, cost, date){
-        let newExpenseId = limit.expenses.reduce((id, expense) => expense.id > id ? expense.id : id);
+        let limit = this.state.limits.filter(limit => {return limit.id === limitId})
+        console.log(limit);
+        let newExpenseId = limit[0].expenses.reduce((id, expense) => expense.id > id ? expense.id : id);
         let newExpense = {
             id: newExpenseId,
             cost: cost,
