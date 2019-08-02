@@ -71,17 +71,15 @@ export default class HomeScreen extends Component {
 
     addExpense(limitId, cost, date){
         let limit = this.state.limits.filter(limit => {return limit.id === limitId})
-        console.log(limit);
         let newExpenseId = limit[0].expenses.reduce((id, expense) => expense.id > id ? expense.id : id);
         let newExpense = {
             id: newExpenseId,
             cost: cost,
             date: date
         }
-
         this.setState(prevState => ({
             limits: prevState.limits.map((limit) => {
-                limit.id === limitId ? {...limit, expenses: limit.expenses.push(newExpense)}: limit
+                limit.id === limitId ? {...limit, expenses: limit.expenses.push(newExpense)} : limit
             })
         }));
     }
@@ -108,9 +106,15 @@ export default class HomeScreen extends Component {
                         <View>
                             <FlatList
                                 data={this.state.limits}
+                                extraData={this.state.limits}
+                                keyExtractor={(item, index) => index.toString()}
                                 renderItem={({item}) => (
                                     <TouchableHighlight onPress={() => this.props.navigation.navigate("ViewLimit", {
                                         limit: this.state.limits.filter((limit) => {
+                                            /*console.log(this.state.limits);
+                                            console.log(limit);
+                                            console.log(item);
+                                            console.log(limit.id === item.id)*/
                                             return limit.id === item.id;
                                         }),
                                         addExpense: this.addExpense
